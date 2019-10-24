@@ -4,6 +4,6 @@
 }
 
 .onUnload = function(libpath) {
-    watch_ended()
+    watch_ends()
     invisible()
 }
