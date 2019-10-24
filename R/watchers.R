@@ -1,29 +1,93 @@
-watch_remove = function(hook_name) {
-    setHook(hook_name, NULL, "replace")
+#' Add, remove, or see package watches
+#'
+#' Setups, destructs, or shows the watch for when a package
+#' is loaded into _R_.
+#'
+#' @param pkg     Name of the Package to actively watch for.
+#' @param verbose Provide a message indicating addition or removal of watch.
+#'
+#' @export
+#' @rdname watch_pkg
+#' @examples
+#' # Prevent a package from being used.
+#' watch_add("pkg")
+#'
+#' # Allow a package to be used again.
+#' watch_remove("pkg")
+watch_add = function(pkg, verbose = TRUE) {
+
+  if (is_pkg_watched(pkg)) {
+    message("A watch for {", pkg, "} has already been established.")
+    return(invisible())
+  }
+
+  if (verbose) {
+    message("Added a watch for {", pkg, "}.")
+  }
+
+  hook_name = packageEvent(pkg, "attach")
+  pkgwatch_env_add(pkg)
+
+  # Establish a new hook
+  setHook(hook_name, function(...) {
+    message("Detected {", pkg, "} package load...")
+    detach(paste0("package:", pkg), unload = TRUE, force = TRUE,
+           character.only = TRUE)
+    message("The {", pkg, "} package is not allowed to be used.")
+  })
 }
 
-watch_register = function(x) {
-    hook_name = packageEvent(x, "attach")
+#' @export
+#' @rdname watch_pkg
+watch_remove = function(pkg, verbose = TRUE) {
+  if (is_pkg_not_watched(pkg)) {
+    message("There isn't a watch yet for {", pkg, "}.")
+    return(invisible())
+  }
 
-    # Verify hook hasn't been set yet.
-    # Hooks that are not set, return an empty list with length 0.
-    if (length(hook_name) != 0) {
-        watch_remove(hook_name)
-    }
+  if (verbose) {
+    message("Removed a watch for {", pkg, "}.")
+  }
 
-    # Establish a new hook
-    setHook(hook_name, function(...) {
-        packageStartupMessage("Detected package load...")
-        stop("The `", hook_name, "` package is not allowed.", call. = FALSE)
-    })
+  pkgwatch_env_remove(pkg)
+  hook_name = packageEvent(pkg, "attach")
+  setHook(hook_name, NULL, "replace")
 }
 
-watch_begins = function() {
-    hooks_established = sapply(.pkgwatch$pkgs, FUN = watch_register)
-    invisible(hooks_established)
+#' @rdname watch_pkg
+#' @export
+watch_active = function() {
+  watch_active_list_output(output_msg = message)
 }
 
-watch_ends = function() {
-    hooks_destroyed = sapply(.pkgwatch$pkgs, FUN = watch_remove)
-    invisible(hooks_destroyed)
+
+## Used during package loads ----
+
+watch_begins = function(output_msg = packageStartupMessage) {
+
+  pkgs = pkgwatch_env_packages()
+  watch_active_list_output(output_msg = output_msg)
+  hooks_established = sapply(pkgs, FUN = watch_add, verbose = FALSE)
+
+  invisible(hooks_established)
 }
+
+watch_ends = function(output_msg = message) {
+  pkgs = pkgwatch_env_packages()
+
+  output_msg("All packages are allowed to be loaded again.")
+  hooks_destroyed = sapply(pkgs, FUN = watch_remove, verbose = FALSE)
+
+  invisible(hooks_destroyed)
+}
+
+watch_active_list_output = function(output_msg = message) {
+  pkgs = pkgwatch_env_packages()
+  if (length(pkgs)) {
+    output_msg("The following packages are prohibited from being used:\n")
+    output_msg(paste("* ", pkgs, collapse = "\n"))
+  } else {
+    output_msg("No packages are currently prohibited from being used.")
+  }
+}
+
