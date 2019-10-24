@@ -6,3 +6,7 @@
 ## usethis namespace: start
 ## usethis namespace: end
 NULL
+
+# Environment
+.pkgwatch = new.env()
+.pkgwatch$pkgs = c("dplyr", "tidyverse")
