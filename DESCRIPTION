@@ -1,4 +1,4 @@
-Package: pkgwatch
+Package: watcher
 Title: Monitors Package Attachment to Session
 Version: 0.0.0.9000
 Authors@R: 
@@ -10,8 +10,8 @@ Description: Prevents packages being loaded into the global search scope.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/coatless/pkgwatch
-BugReports: https://github.com/coatless/pkgwatch/issues
+URL: https://github.com/coatless/watcher
+BugReports: https://github.com/coatless/watcher/issues
 Suggests: 
     covr
 RoxygenNote: 6.1.1
