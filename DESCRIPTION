@@ -1,0 +1,12 @@
+Package: pkgwatch
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "James",
+           family = "Balamuta",
+           role = c("aut", "cre"),
+           email = "balamut2@illinois.edu")
+Description: What the package does (one paragraph).
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
