@@ -60,7 +60,7 @@ For example, let's say we didn't want to allow `toad` to be loaded. We would
 call:
 
 ```{r add-pkg}
-watch("toad")
+watch_pkg("toad")
 ```
 
 If we attempted to load `toad` using either `library()` or `require()`, then
@@ -88,7 +88,7 @@ watchlist()
 To allow the package to be used, we would need to remove the watch:
 
 ```{r remove-watch}
-unwatch("toad")
+unwatch_pkg("toad")
 ```
 
 Then, the package load would be allowed. 

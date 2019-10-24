@@ -54,7 +54,7 @@ For example, let’s say we didn’t want to allow `toad` to be loaded. We
 would call:
 
 ``` r
-watch("toad")
+watch_pkg("toad")
 #> Added a watch for {toad}.
 ```
 
@@ -85,7 +85,7 @@ watchlist()
 To allow the package to be used, we would need to remove the watch:
 
 ``` r
-unwatch("toad")
+unwatch_pkg("toad")
 #> Removed a watch for {toad}.
 ```
 

@@ -10,14 +10,14 @@
 #' @rdname watch_pkg
 #' @examples
 #' # Prevent a package from being used.
-#' watch("pkg")
+#' watch_pkg("pkgname")
 #'
 #' # Show active watches
 #' watchlist()
 #'
 #' # Allow a package to be used again.
-#' unwatch("pkg")
-watch = function(pkg, verbose = TRUE) {
+#' unwatch_pkg("pkgname")
+watch_pkg = function(pkg, verbose = TRUE) {
 
   if (is_pkg_watched(pkg)) {
     message("A watch for {", pkg, "} has already been established.")
@@ -42,7 +42,7 @@ watch = function(pkg, verbose = TRUE) {
 
 #' @export
 #' @rdname watch_pkg
-unwatch = function(pkg, verbose = TRUE) {
+unwatch_pkg = function(pkg, verbose = TRUE) {
   if (is_pkg_not_watched(pkg)) {
     message("There isn't a watch yet for {", pkg, "}.")
     return(invisible())
@@ -70,7 +70,7 @@ watch_begins = function(output_msg = packageStartupMessage) {
 
   pkgs = pkgwatch_env_packages()
   watch_active_list_output(output_msg = output_msg)
-  hooks_established = sapply(pkgs, FUN = watch, verbose = FALSE)
+  hooks_established = sapply(pkgs, FUN = watch_pkg, verbose = FALSE)
 
   invisible(hooks_established)
 }
@@ -79,7 +79,7 @@ watch_ends = function(output_msg = message) {
   pkgs = pkgwatch_env_packages()
 
   output_msg("All packages are allowed to be loaded again.")
-  hooks_destroyed = sapply(pkgs, FUN = unwatch, verbose = FALSE)
+  hooks_destroyed = sapply(pkgs, FUN = unwatch_pkg, verbose = FALSE)
 
   invisible(hooks_destroyed)
 }
