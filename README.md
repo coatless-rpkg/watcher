@@ -1,19 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# pkgwatch
+# watcher
 
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.com/coatless/pkgwatch.svg?branch=master)](https://travis-ci.com/coatless/pkgwatch)
+status](https://travis-ci.com/coatless/watcher.svg?branch=master)](https://travis-ci.com/coatless/watcher)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/pkgwatch)](https://CRAN.R-project.org/package=pkgwatch)
+status](https://www.r-pkg.org/badges/version/watcher)](https://CRAN.R-project.org/package=watcher)
 [![Codecov test
-coverage](https://codecov.io/gh/coatless/pkgwatch/branch/master/graph/badge.svg)](https://codecov.io/gh/coatless/pkgwatch?branch=master)
+coverage](https://codecov.io/gh/coatless/watcher/branch/master/graph/badge.svg)](https://codecov.io/gh/coatless/watcher?branch=master)
 <!-- badges: end -->
 
-The goal of pkgwatch is to prevent *R* packages from being used through
+The goal of watcher is to prevent *R* packages from being used through
 `library()` and `require()` calls. This is useful to prevent
 (un)intentional use of packages not approved within a classroom,
 research, or company environment.
@@ -21,10 +21,10 @@ research, or company environment.
 ## Installation
 
 <!--
-You can install the released version of pkgwatch from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version of watcher from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("pkgwatch")
+install.packages("watcher")
 ```
 
 Or, you can be on the cutting-edge development version on GitHub using: -->
@@ -34,15 +34,15 @@ use:
 
 ``` r
 if(!requireNamespace("remotes")) install.packages("remotes")
-remotes::install_github("coatless/pkgwatch")
+remotes::install_github("coatless/watcher")
 ```
 
 ## Usage
 
-To use the `pkgwatch` package, load it into *R* using:
+To use the `watcher` package, load it into *R* using:
 
 ``` r
-library("pkgwatch")
+library("watcher")
 #> No packages are currently prohibited from being used.
 ```
 
@@ -54,7 +54,7 @@ For example, let’s say we didn’t want to allow `toad` to be loaded. We
 would call:
 
 ``` r
-watch_add("toad")
+watch("toad")
 #> Added a watch for {toad}.
 ```
 
@@ -77,7 +77,7 @@ require("toad")
 All packages that are prohibited from being used can be viewed with:
 
 ``` r
-watch_active()
+watchlist()
 #> The following packages are prohibited from being used:
 #> *  toad
 ```
@@ -85,7 +85,7 @@ watch_active()
 To allow the package to be used, we would need to remove the watch:
 
 ``` r
-watch_remove("toad")
+unwatch("toad")
 #> Removed a watch for {toad}.
 ```
 
@@ -97,7 +97,7 @@ library("toad")
 
 ## Motivation
 
-When designing `pkgwatch`, the goal was to achieve a “soft-failure” when
+When designing `watcher`, the goal was to achieve a “soft-failure” when
 undesirable packages were loaded via `library()` or `require()`.
 Generally, this follows in the footsteps of
 [`strict`](https://github.com/hadley/strict) – which sought to raise
