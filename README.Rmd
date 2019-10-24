@@ -16,39 +16,105 @@ knitr::opts_chunk$set(
 # pkgwatch
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.com/coatless/pkgwatch.svg?branch=master)](https://travis-ci.com/coatless/pkgwatch)
+[![CRAN status](https://www.r-pkg.org/badges/version/pkgwatch)](https://CRAN.R-project.org/package=pkgwatch)
+[![Codecov test coverage](https://codecov.io/gh/coatless/pkgwatch/branch/master/graph/badge.svg)](https://codecov.io/gh/coatless/pkgwatch?branch=master)
 <!-- badges: end -->
 
-The goal of pkgwatch is to ...
+The goal of pkgwatch is to prevent _R_ packages from being used through
+`library()` and `require()` calls. This is useful to prevent (un)intentional
+use of packages not approved within a classroom, research, or company environment.
 
 ## Installation
 
+<!--
 You can install the released version of pkgwatch from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("pkgwatch")
 ```
 
-## Example
+Or, you can be on the cutting-edge development version on GitHub using: -->
 
-This is a basic example which shows you how to solve a common problem:
+This package is only available on GitHub. To install the package,
+please use:
+
+```{r gh-installation, eval = FALSE}
+if(!requireNamespace("remotes")) install.packages("remotes")
+remotes::install_github("coatless/pkgwatch")
+```
+
+## Usage
+
+To use the `pkgwatch` package, load it into _R_ using:
 
 ```{r example}
-library(pkgwatch)
-## basic example code
+library("pkgwatch")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+From there, any package that is on a blacklist will be prevented from
+being loaded. The blacklist can be established on a per-session basis or 
+can be loaded as needed. 
 
-```{r cars}
-summary(cars)
+For example, let's say we didn't want to allow `toad` to be loaded. We would
+call:
+
+```{r add-pkg}
+watch_add("toad")
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
+If we attempted to load `toad` using either `library()` or `require()`, then
+we would error:
 
-You can also embed plots, for example:
+```
+library("toad")
+#> Detected {toad} package load...
+#> The {toad} package is not allowed to be used.
+#> Error in as.environment(lib.pos) : invalid 'pos' argument
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+require("toad")
+#> Loading required package: toad
+#> Detected {toad} package load...
+#> The {toad} package is not allowed to be used.
+#> Failed with error:  'invalid 'pos' argument'
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
+All packages that are prohibited from being used can be viewed with:
+
+```{r list-watches}
+watch_active()
+```
+
+To allow the package to be used, we would need to remove the watch:
+
+```{r remove-watch}
+watch_remove("toad")
+```
+
+```r
+library("toad")
+```
+
+## Motivation
+
+When designing `pkgwatch`, the goal was to achieve a "soft-failure" when 
+undesirable packages were loaded via `library()` or `require()`. 
+Generally, this follows in the footsteps of 
+[`strict`](https://github.com/hadley/strict)
+-- which sought to raise issues with undesirable design patterns in code --
+and, subsequently, [`conflicted`](https://github.com/r-lib/conflicted) --
+which addressed search path collisions between similarly named functions in
+different packages -- both by Hadley Wickham. With this being said,
+there are better variants of protecting the _R_ process. Most notably, the
+[`RAppArmor`](https://cran.r-project.org/package=RAppArmor) by Jeroen Ooms
+provides superior sandboxing of _R_. 
+
+Fun fact: The code for this sat in an `untitled.R` file for ~2 years.
+
+## Author
+
+James Joseph Balamuta
+
+## License
+
+GPL (>= 2)
