@@ -9,4 +9,21 @@ NULL
 
 # Environment
 .pkgwatch = new.env()
-.pkgwatch$pkgs = c("dplyr", "tidyverse")
+.pkgwatch$pkgs = NULL
+
+
+pkgwatch_env_packages = function() {
+    .pkgwatch$pkgs
+}
+
+pkgwatch_env_add  = function(x) {
+    if(is_pkg_not_watched(x)) {
+        .pkgwatch$pkgs = c(.pkgwatch$pkgs, x)
+    }
+}
+
+pkgwatch_env_remove  = function(x) {
+    if(is_pkg_watched(x)) {
+        .pkgwatch$pkgs = .pkgwatch$pkgs[!(.pkgwatch$pkgs %in% x)]
+    }
+}
