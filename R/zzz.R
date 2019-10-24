@@ -1,5 +1,5 @@
 .onAttach = function(libname, pkgname) {
-    watch_begins()
+    watch_begins(output_msg = packageStartupMessage)
     invisible()
 }
 
