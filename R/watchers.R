@@ -8,7 +8,7 @@ watch_register = function(x) {
     # Verify hook hasn't been set yet.
     # Hooks that are not set, return an empty list with length 0.
     if (length(hook_name) != 0) {
-        remove_hook(hook_name)
+        watch_remove(hook_name)
     }
 
     # Establish a new hook
