@@ -1,14 +1,18 @@
 Package: pkgwatch
-Title: What the Package Does (One Line, Title Case)
+Title: Prevents R packages from being loaded into scope
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "James",
            family = "Balamuta",
            role = c("aut", "cre"),
            email = "balamut2@illinois.edu")
-Description: What the package does (one paragraph).
+Description: Monitors packages being loaded into the global search scope and
+    blocks their additions when appropriate.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/coatless/pkgwatch
 BugReports: https://github.com/coatless/pkgwatch/issues
+Suggests: 
+    covr
+RoxygenNote: 6.1.1
