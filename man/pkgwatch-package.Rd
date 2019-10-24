@@ -4,10 +4,9 @@
 \name{pkgwatch-package}
 \alias{pkgwatch}
 \alias{pkgwatch-package}
-\title{pkgwatch: Prevents R packages from being loaded into scope}
+\title{pkgwatch: Monitors Package Attachment to Session}
 \description{
-Monitors packages being loaded into the global search scope and
-    blocks their additions when appropriate.
+Prevents packages being loaded into the global search scope.
 }
 \seealso{
 Useful links:
