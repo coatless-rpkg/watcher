@@ -66,7 +66,7 @@ watch_add("toad")
 If we attempted to load `toad` using either `library()` or `require()`, then
 we would error:
 
-```
+```r
 library("toad")
 #> Detected {toad} package load...
 #> The {toad} package is not allowed to be used.
@@ -91,6 +91,8 @@ To allow the package to be used, we would need to remove the watch:
 watch_remove("toad")
 ```
 
+Then, the package load would be allowed. 
+
 ```r
 library("toad")
 ```
@@ -107,7 +109,8 @@ which addressed search path collisions between similarly named functions in
 different packages -- both by Hadley Wickham. With this being said,
 there are better variants of protecting the _R_ process. Most notably, the
 [`RAppArmor`](https://cran.r-project.org/package=RAppArmor) by Jeroen Ooms
-provides superior sandboxing of _R_. 
+provides superior sandboxing of _R_. Alternatively, the version of _R_ 
+could simply not have these packages installed to begin with.
 
 Fun fact: The code for this sat in an `untitled.R` file for ~2 years.
 

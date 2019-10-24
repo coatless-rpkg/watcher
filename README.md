@@ -61,16 +61,18 @@ watch_add("toad")
 If we attempted to load `toad` using either `library()` or `require()`,
 then we would error:
 
-    library("toad")
-    #> Detected {toad} package load...
-    #> The {toad} package is not allowed to be used.
-    #> Error in as.environment(lib.pos) : invalid 'pos' argument
-    
-    require("toad")
-    #> Loading required package: toad
-    #> Detected {toad} package load...
-    #> The {toad} package is not allowed to be used.
-    #> Failed with error:  'invalid 'pos' argument'
+``` r
+library("toad")
+#> Detected {toad} package load...
+#> The {toad} package is not allowed to be used.
+#> Error in as.environment(lib.pos) : invalid 'pos' argument
+
+require("toad")
+#> Loading required package: toad
+#> Detected {toad} package load...
+#> The {toad} package is not allowed to be used.
+#> Failed with error:  'invalid 'pos' argument'
+```
 
 All packages that are prohibited from being used can be viewed with:
 
@@ -86,6 +88,8 @@ To allow the package to be used, we would need to remove the watch:
 watch_remove("toad")
 #> Removed a watch for {toad}.
 ```
+
+Then, the package load would be allowed.
 
 ``` r
 library("toad")
@@ -103,7 +107,8 @@ search path collisions between similarly named functions in different
 packages – both by Hadley Wickham. With this being said, there are
 better variants of protecting the *R* process. Most notably, the
 [`RAppArmor`](https://cran.r-project.org/package=RAppArmor) by Jeroen
-Ooms provides superior sandboxing of *R*.
+Ooms provides superior sandboxing of *R*. Alternatively, the version of
+*R* could simply not have these packages installed to begin with.
 
 Fun fact: The code for this sat in an `untitled.R` file for \~2 years.
 
